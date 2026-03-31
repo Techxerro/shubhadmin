@@ -17,13 +17,24 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    //routes for properties
-    Route::get('/admin/properties', [PropertyController::class, 'index'])->name('properties.index');
-    Route::get('/admin/properties/create', [PropertyController::class, 'create'])->name('properties.create');
-    Route::post('/admin/properties', [PropertyController::class, 'store'])->name('properties.store');
+    Route::prefix('admin')->name('admin.')->group(function () {
 
-    Route::get('/admin/properties/{property}/edit', [PropertyController::class, 'edit'])->name('properties.edit');
-    Route::put('/admin/properties/{property}', [PropertyController::class, 'update'])->name('properties.update');
+        // Property Routes
+        Route::get('/properties', [PropertyController::class, 'list'])->name('properties.list');
+        Route::get('/properties/add', [PropertyController::class, 'add'])->name('properties.add');
+        Route::post('/properties/store', [PropertyController::class, 'store'])->name('properties.store');
+        Route::get('/properties/edit/{id}', [PropertyController::class, 'edit'])->name('properties.edit');
+        Route::post('/properties/update/{id}', [PropertyController::class, 'update'])->name('properties.update');
+        Route::post('/properties/delete/{id}', [PropertyController::class, 'delete'])->name('properties.delete');
+
+        // Developer Routes
+        // Route::get('/developers', [DeveloperController::class, 'list'])->name('developers.list');
+        // Route::get('/developers/add', [DeveloperController::class, 'add'])->name('developers.add');
+        // Route::post('/developers/store', [DeveloperController::class, 'store'])->name('developers.store');
+        // Route::get('/developers/edit/{id}', [DeveloperController::class, 'edit'])->name('developers.edit');
+        // Route::post('/developers/update/{id}', [DeveloperController::class, 'update'])->name('developers.update');
+        // Route::post('/developers/delete/{id}', [DeveloperController::class, 'delete'])->name('developers.delete');
+    });
 });
 
 require __DIR__.'/auth.php';
