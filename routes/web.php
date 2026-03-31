@@ -28,12 +28,12 @@ Route::middleware('auth')->group(function () {
         Route::post('/properties/delete/{id}', [PropertyController::class, 'delete'])->name('properties.delete');
 
         // Developer Routes
-        // Route::get('/developers', [DeveloperController::class, 'list'])->name('developers.list');
-        // Route::get('/developers/add', [DeveloperController::class, 'add'])->name('developers.add');
-        // Route::post('/developers/store', [DeveloperController::class, 'store'])->name('developers.store');
-        // Route::get('/developers/edit/{id}', [DeveloperController::class, 'edit'])->name('developers.edit');
-        // Route::post('/developers/update/{id}', [DeveloperController::class, 'update'])->name('developers.update');
-        // Route::post('/developers/delete/{id}', [DeveloperController::class, 'delete'])->name('developers.delete');
+        Route::get('/developers', [DeveloperController::class, 'list'])->name('developers.list');
+        Route::get('/developers/add', [DeveloperController::class, 'add'])->name('developers.add');
+        Route::post('/developers/store', [DeveloperController::class, 'store'])->name('developers.store');
+        Route::get('/developers/edit/{id}', [DeveloperController::class, 'edit'])->name('developers.edit');
+        Route::post('/developers/update/{id}', [DeveloperController::class, 'update'])->name('developers.update');
+        Route::post('/developers/delete/{id}', [DeveloperController::class, 'delete'])->name('developers.delete');
     });
 });
 
