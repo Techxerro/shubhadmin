@@ -9,7 +9,7 @@ class PropertyApiController extends Controller
 {
     public function index()
     {
-        $properties = Property::latest()->get();
+        $properties = Property::with('images')->latest()->get();
 
         $data = $properties->map(function ($property) {
             return [
@@ -22,6 +22,9 @@ class PropertyApiController extends Controller
                 'startingPrice' => $property->startingPrice,
                 'description' => $property->description,
                 'amenities' => $property->amenities ? explode(',', $property->amenities) : [],
+                'images' => $property->images->map(function ($img) {
+                    return asset('storage/' . $img->image);
+                }),
             ];
         });
 

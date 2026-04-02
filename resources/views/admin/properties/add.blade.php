@@ -65,6 +65,14 @@
             </div>
 
             <div>
+                <label class="mb-2 block text-sm font-medium text-gray-700">Property Images</label>
+                <input type="file" name="images[]" multiple
+                    class="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm">
+                <p class="mt-1 text-xs text-gray-500">You can select multiple images</p>
+                @error('images.*') <p class="mt-1 text-sm text-red-500">{{ $message }}</p> @enderror
+            </div>
+
+            <div>
                 <label class="mb-2 block text-sm font-medium text-gray-700">Description</label>
                 <textarea name="description" rows="5"
                     class="w-full rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500">{{ old('description') }}</textarea>

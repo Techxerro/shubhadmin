@@ -34,6 +34,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/developers/edit/{id}', [DeveloperController::class, 'edit'])->name('developers.edit');
         Route::post('/developers/update/{id}', [DeveloperController::class, 'update'])->name('developers.update');
         Route::post('/developers/delete/{id}', [DeveloperController::class, 'delete'])->name('developers.delete');
+
+        Route::post('/properties/image/delete/{id}', [PropertyController::class, 'deleteImage'])->name('properties.image.delete');
     });
 });
 

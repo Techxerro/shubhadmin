@@ -63,6 +63,14 @@
             </div>
 
             <div>
+                <label class="mb-2 block text-sm font-medium text-gray-700">Add More Property Images</label>
+                <input type="file" name="images[]" multiple
+                    class="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm">
+                <p class="mt-1 text-xs text-gray-500">You can upload multiple new images</p>
+                @error('images.*') <p class="mt-1 text-sm text-red-500">{{ $message }}</p> @enderror
+            </div>
+
+            <div>
                 <label class="mb-2 block text-sm font-medium text-gray-700">Description</label>
                 <textarea name="description" rows="5"
                     class="w-full rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500">{{ old('description', $property->description) }}</textarea>
@@ -81,5 +89,32 @@
             </div>
         </form>
     </div>
+
+     <!-- GALLERY SECTION OUTSIDE MAIN FORM -->
+    @if($property->images->count())
+        <div class="mt-6 rounded-2xl bg-white p-6 shadow-sm border border-gray-100">
+            <label class="mb-4 block text-sm font-medium text-gray-700">Property Gallery</label>
+
+            <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
+                @foreach($property->images as $img)
+                    <div class="rounded-xl border p-2">
+                        <img src="{{ asset('storage/' . $img->image) }}"
+                             class="h-24 w-full rounded-lg object-cover">
+
+                        <form action="{{ route('admin.properties.image.delete', $img->id) }}"
+                              method="POST"
+                              class="mt-2"
+                              onsubmit="return confirm('Delete this image?')">
+                            @csrf
+                            <button type="submit"
+                                class="w-full rounded-lg bg-red-600 px-3 py-2 text-sm text-white hover:bg-red-700">
+                                Delete
+                            </button>
+                        </form>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    @endif
 </div>
 @endsection
