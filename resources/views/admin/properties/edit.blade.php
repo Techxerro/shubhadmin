@@ -35,7 +35,17 @@
                     <input type="text" name="location" value="{{ old('location', $property->location) }}"
                         class="w-full rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500">
                 </div>
+                <div>
+                    <label class="mb-2 block text-sm font-medium text-gray-700">City</label>
+                    <input type="text" name="city" value="{{ old('city', $property->city) }}"
+                        class="w-full rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+                </div>
 
+                <div>
+                    <label class="mb-2 block text-sm font-medium text-gray-700">Country</label>
+                    <input type="text" name="country" value="{{ old('country', $property->country) }}"
+                        class="w-full rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+                </div>
                 <div>
                     <label class="mb-2 block text-sm font-medium text-gray-700">Bedrooms</label>
                     <input type="text" name="bedrooms" value="{{ old('bedrooms', $property->bedrooms) }}"

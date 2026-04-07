@@ -39,6 +39,23 @@
                         class="w-full rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500">
                     @error('location') <p class="mt-1 text-sm text-red-500">{{ $message }}</p> @enderror
                 </div>
+                <div>
+                    <label class="mb-2 block text-sm font-medium text-gray-700">City</label>
+                    <input type="text" name="city" value="{{ old('city') }}"
+                        class="w-full rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+                    @error('city')
+                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label class="mb-2 block text-sm font-medium text-gray-700">Country</label>
+                    <input type="text" name="country" value="{{ old('country') }}"
+                        class="w-full rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+                    @error('country')
+                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
 
                 <div>
                     <label class="mb-2 block text-sm font-medium text-gray-700">Bedrooms</label>

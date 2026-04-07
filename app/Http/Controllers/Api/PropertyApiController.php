@@ -18,6 +18,8 @@ class PropertyApiController extends Controller
                 'logo' => $property->logo ? asset('storage/' . $property->logo) : null,
                 'developer' => $property->developer,
                 'location' => $property->location,
+                'city' => $property->city,
+                'country' => $property->country,
                 'bedrooms' => $property->bedrooms,
                 'startingPrice' => $property->startingPrice,
                 'description' => $property->description,
