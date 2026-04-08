@@ -94,6 +94,8 @@ class PropertyController extends Controller
             'payment_plan' => 'nullable|array',
             'payment_plan.*.key' => 'nullable|string|max:255',
             'payment_plan.*.value' => 'nullable|string|max:255',
+            'master_plan_description' => 'nullable|string',
+            'master_plan_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
         ]);
 
         $paymentPlan = collect($request->payment_plan ?? [])
@@ -113,6 +115,15 @@ class PropertyController extends Controller
             $logoPath = $request->file('logo')->store('properties', 'public');
         }
 
+        $masterPlanImagePath = $property->master_plan_image;
+
+        if ($request->hasFile('master_plan_image')) {
+            if ($property->master_plan_image && Storage::disk('public')->exists($property->master_plan_image)) {
+                Storage::disk('public')->delete($property->master_plan_image);
+            }
+
+            $masterPlanImagePath = $request->file('master_plan_image')->store('properties/master-plan', 'public');
+        }
         $property->update([
             'name' => $request->name,
             'logo' => $logoPath,
@@ -125,6 +136,8 @@ class PropertyController extends Controller
             'description' => $request->description,
             'amenities' => $request->amenities,
             'payment_plan' => $paymentPlan,
+            'master_plan_description' => $request->master_plan_description,
+            'master_plan_image' => $masterPlanImagePath,
         ]);
 
         if ($request->hasFile('images')) {

@@ -28,6 +28,8 @@ class PropertyApiController extends Controller
                     return asset('storage/' . $img->image);
                 }),
                 'payment_plan' => $property->payment_plan ?? [],
+                'master_plan_description' => $property->master_plan_description,
+                'master_plan_image' => $property->master_plan_image ? asset('storage/' . $property->master_plan_image) : null,
             ];
         });
 

@@ -85,6 +85,46 @@
                 <textarea name="description" rows="5"
                     class="w-full rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500">{{ old('description', $property->description) }}</textarea>
             </div>
+            <div class="rounded-2xl border border-gray-200 p-5 space-y-5">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800">Master Plan</h3>
+                    <p class="text-sm text-gray-500">Add master plan description and image.</p>
+                </div>
+
+                <div>
+                    <label class="mb-2 block text-sm font-medium text-gray-700">Master Plan Description</label>
+                    <textarea
+                        name="master_plan_description"
+                        rows="5"
+                        class="w-full rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                    >{{ old('master_plan_description', $property->master_plan_description) }}</textarea>
+                    @error('master_plan_description')
+                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label class="mb-2 block text-sm font-medium text-gray-700">Master Plan Image</label>
+                    <input
+                        type="file"
+                        name="master_plan_image"
+                        class="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm"
+                    >
+                    @error('master_plan_image')
+                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                @if($property->master_plan_image)
+                    <div>
+                        <label class="mb-2 block text-sm font-medium text-gray-700">Current Master Plan Image</label>
+                        <img
+                            src="{{ asset('storage/' . $property->master_plan_image) }}"
+                            class="max-h-64 rounded-xl border object-cover"
+                        >
+                    </div>
+                @endif
+            </div>
             @php
     $paymentPlanOld = old('payment_plan', $property->payment_plan ?? []);
     $paymentPlanOld = is_array($paymentPlanOld) && count($paymentPlanOld)
