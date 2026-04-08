@@ -18,6 +18,32 @@
                         class="w-full rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500">
                     @error('name') <p class="mt-1 text-sm text-red-500">{{ $message }}</p> @enderror
                 </div>
+                <div>
+                    <label class="mb-2 block text-sm font-medium text-gray-700">Property Type</label>
+
+                    <select name="property_type"
+                        class="w-full rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+
+                        <option value="">Select Type</option>
+
+                        <option value="off_plan" {{ old('property_type') == 'off_plan' ? 'selected' : '' }}>
+                            Off Plan
+                        </option>
+
+                        <option value="buy" {{ old('property_type') == 'buy' ? 'selected' : '' }}>
+                            Buy
+                        </option>
+
+                        <option value="rent" {{ old('property_type') == 'rent' ? 'selected' : '' }}>
+                            Rent
+                        </option>
+
+                    </select>
+
+                    @error('property_type')
+                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
 
                 <div>
                     <label class="mb-2 block text-sm font-medium text-gray-700">Logo</label>

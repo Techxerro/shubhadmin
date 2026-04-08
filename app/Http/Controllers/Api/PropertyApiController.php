@@ -35,6 +35,7 @@ class PropertyApiController extends Controller
                 'prime_location_image' => $property->prime_location_image
                     ? asset('storage/' . $property->prime_location_image)
                     : null,
+                'property_type' => $property->property_type,
             ];
         });
 

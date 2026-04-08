@@ -34,6 +34,7 @@ class PropertyController extends Controller
             'description' => 'nullable|string',
             'amenities' => 'nullable|string',
             'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'property_type' => 'required|in:off_plan,buy,rent',
         ]);
 
         $logoPath = null;
@@ -53,6 +54,7 @@ class PropertyController extends Controller
             'startingPrice' => $request->startingPrice,
             'description' => $request->description,
             'amenities' => $request->amenities,
+            'property_type' => $request->property_type,
         ]);
 
         if ($request->hasFile('images')) {
@@ -99,6 +101,7 @@ class PropertyController extends Controller
             'prime_location_description' => 'nullable|string',
             'prime_location_highlight' => 'nullable|string|max:255',
             'prime_location_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
+            'property_type' => 'required|in:off_plan,buy,rent',
         ]);
 
         $paymentPlan = collect($request->payment_plan ?? [])
@@ -158,6 +161,7 @@ class PropertyController extends Controller
             'prime_location_description' => $request->prime_location_description,
             'prime_location_highlight' => $request->prime_location_highlight,
             'prime_location_image' => $primeLocationImagePath,
+            'property_type' => $request->property_type,
         ]);
 
         if ($request->hasFile('images')) {

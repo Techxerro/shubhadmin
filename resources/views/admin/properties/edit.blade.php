@@ -17,6 +17,31 @@
                     <input type="text" name="name" value="{{ old('name', $property->name) }}"
                         class="w-full rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500">
                 </div>
+                <div>
+                    <label class="mb-2 block text-sm font-medium text-gray-700">Property Type</label>
+
+                    <select name="property_type"
+                        class="w-full rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+
+                        <option value="">Select Type</option>
+
+                        <option value="off_plan"
+                            {{ old('property_type', $property->property_type) == 'off_plan' ? 'selected' : '' }}>
+                            Off Plan
+                        </option>
+
+                        <option value="buy"
+                            {{ old('property_type', $property->property_type) == 'buy' ? 'selected' : '' }}>
+                            Buy
+                        </option>
+
+                        <option value="rent"
+                            {{ old('property_type', $property->property_type) == 'rent' ? 'selected' : '' }}>
+                            Rent
+                        </option>
+
+                    </select>
+                </div>
 
                 <div>
                     <label class="mb-2 block text-sm font-medium text-gray-700">Change Logo</label>
