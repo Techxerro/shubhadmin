@@ -125,6 +125,53 @@
                     </div>
                 @endif
             </div>
+
+            <div class="rounded-2xl border border-gray-200 p-5 space-y-5">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-800">Prime Location</h3>
+                    <p class="text-sm text-gray-500">Add prime location details.</p>
+                </div>
+
+                <div>
+                    <label class="mb-2 block text-sm font-medium text-gray-700">Description</label>
+                    <textarea
+                        name="prime_location_description"
+                        rows="4"
+                        class="w-full rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                    >{{ old('prime_location_description', $property->prime_location_description) }}</textarea>
+                </div>
+
+                <div>
+                    <label class="mb-2 block text-sm font-medium text-gray-700">Highlight</label>
+                    <input
+                        type="text"
+                        name="prime_location_highlight"
+                        value="{{ old('prime_location_highlight', $property->prime_location_highlight) }}"
+                        class="w-full rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                    >
+                </div>
+
+                <div>
+                    <label class="mb-2 block text-sm font-medium text-gray-700">Image</label>
+                    <input
+                        type="file"
+                        name="prime_location_image"
+                        class="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm"
+                    >
+                </div>
+
+                @if($property->prime_location_image)
+                    <div>
+                        <label class="mb-2 block text-sm font-medium text-gray-700">Current Image</label>
+                        <img
+                            src="{{ asset('storage/' . $property->prime_location_image) }}"
+                            class="max-h-64 rounded-xl border object-cover"
+                        >
+                    </div>
+                @endif
+            </div>
+
+
             @php
     $paymentPlanOld = old('payment_plan', $property->payment_plan ?? []);
     $paymentPlanOld = is_array($paymentPlanOld) && count($paymentPlanOld)

@@ -96,6 +96,9 @@ class PropertyController extends Controller
             'payment_plan.*.value' => 'nullable|string|max:255',
             'master_plan_description' => 'nullable|string',
             'master_plan_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
+            'prime_location_description' => 'nullable|string',
+            'prime_location_highlight' => 'nullable|string|max:255',
+            'prime_location_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
         ]);
 
         $paymentPlan = collect($request->payment_plan ?? [])
@@ -124,6 +127,20 @@ class PropertyController extends Controller
 
             $masterPlanImagePath = $request->file('master_plan_image')->store('properties/master-plan', 'public');
         }
+
+        $primeLocationImagePath = $property->prime_location_image;
+
+        if ($request->hasFile('prime_location_image')) {
+
+            if ($property->prime_location_image && Storage::disk('public')->exists($property->prime_location_image)) {
+
+                Storage::disk('public')->delete($property->prime_location_image);
+            }
+
+            $primeLocationImagePath = $request->file('prime_location_image')
+                ->store('properties/prime-location', 'public');
+        }
+
         $property->update([
             'name' => $request->name,
             'logo' => $logoPath,
@@ -138,6 +155,9 @@ class PropertyController extends Controller
             'payment_plan' => $paymentPlan,
             'master_plan_description' => $request->master_plan_description,
             'master_plan_image' => $masterPlanImagePath,
+            'prime_location_description' => $request->prime_location_description,
+            'prime_location_highlight' => $request->prime_location_highlight,
+            'prime_location_image' => $primeLocationImagePath,
         ]);
 
         if ($request->hasFile('images')) {
