@@ -85,6 +85,72 @@
                 <textarea name="description" rows="5"
                     class="w-full rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500">{{ old('description', $property->description) }}</textarea>
             </div>
+            @php
+    $paymentPlanOld = old('payment_plan', $property->payment_plan ?? []);
+    $paymentPlanOld = is_array($paymentPlanOld) && count($paymentPlanOld)
+        ? $paymentPlanOld
+        : [['key' => '', 'value' => '']];
+@endphp
+
+<div
+    x-data='{
+        plans: @json($paymentPlanOld)
+    }'
+    class="space-y-4"
+>
+    <div>
+        <label class="mb-2 block text-sm font-medium text-gray-700">Payment Plan</label>
+        <p class="text-xs text-gray-500">Add payment plan rows like Down Payment = 10%</p>
+    </div>
+
+            <template x-for="(plan, index) in plans" :key="index">
+                <div class="grid grid-cols-1 gap-3 md:grid-cols-12">
+                    <div class="md:col-span-5">
+                        <input
+                            type="text"
+                            :name="`payment_plan[${index}][key]`"
+                            x-model="plan.key"
+                            placeholder="Key e.g. Down Payment"
+                            class="w-full rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                        >
+                    </div>
+
+                    <div class="md:col-span-5">
+                        <input
+                            type="text"
+                            :name="`payment_plan[${index}][value]`"
+                            x-model="plan.value"
+                            placeholder="Value e.g. 10%"
+                            class="w-full rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                        >
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <button
+                            type="button"
+                            @click="plans.splice(index, 1)"
+                            class="w-full rounded-xl bg-red-600 px-4 py-2.5 text-white hover:bg-red-700"
+                        >
+                            Remove
+                        </button>
+                    </div>
+                </div>
+            </template>
+
+            <div class="flex gap-3">
+                <button
+                    type="button"
+                    @click="plans.push({ key: '', value: '' })"
+                    class="rounded-xl bg-gray-800 px-4 py-2.5 text-white hover:bg-gray-900"
+                >
+                    Add Row
+                </button>
+            </div>
+
+            @error('payment_plan')
+                <p class="text-sm text-red-500">{{ $message }}</p>
+            @enderror
+        </div>
 
             <div class="flex items-center gap-3">
                 <button type="submit"

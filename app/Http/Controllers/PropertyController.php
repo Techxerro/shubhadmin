@@ -91,7 +91,17 @@ class PropertyController extends Controller
             'description' => 'nullable|string',
             'amenities' => 'nullable|string',
             'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'payment_plan' => 'nullable|array',
+            'payment_plan.*.key' => 'nullable|string|max:255',
+            'payment_plan.*.value' => 'nullable|string|max:255',
         ]);
+
+        $paymentPlan = collect($request->payment_plan ?? [])
+        ->filter(function ($item) {
+            return !empty($item['key']) || !empty($item['value']);
+        })
+        ->values()
+        ->toArray();
 
         $logoPath = $property->logo;
 
@@ -114,6 +124,7 @@ class PropertyController extends Controller
             'startingPrice' => $request->startingPrice,
             'description' => $request->description,
             'amenities' => $request->amenities,
+            'payment_plan' => $paymentPlan,
         ]);
 
         if ($request->hasFile('images')) {

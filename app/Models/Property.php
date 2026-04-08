@@ -9,6 +9,10 @@ class Property extends Model
 {
     protected $guarded = [];
 
+    protected $casts = [
+        'payment_plan' => 'array',
+    ];
+
     public function images()
     {
         return $this->hasMany(PropertyImage::class);

@@ -27,6 +27,7 @@ class PropertyApiController extends Controller
                 'images' => $property->images->map(function ($img) {
                     return asset('storage/' . $img->image);
                 }),
+                'payment_plan' => $property->payment_plan ?? [],
             ];
         });
 
