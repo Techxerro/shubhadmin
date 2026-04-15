@@ -36,6 +36,9 @@ class PropertyApiController extends Controller
                     ? asset('storage/' . $property->prime_location_image)
                     : null,
                 'property_type' => $property->property_type,
+                'brochures' => !empty($property->brochure)? collect($property->brochure)->map(function ($file) {
+                        return asset('storage/' . $file);
+                    }) : [],
             ];
         });
 

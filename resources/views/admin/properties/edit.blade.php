@@ -104,7 +104,18 @@
                 <p class="mt-1 text-xs text-gray-500">You can upload multiple new images</p>
                 @error('images.*') <p class="mt-1 text-sm text-red-500">{{ $message }}</p> @enderror
             </div>
+            <div>
+                <label class="mb-2 block text-sm font-medium text-gray-700">Upload Brochures (PDF)</label>
 
+                <input type="file" name="brochures[]" multiple
+                    class="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm">
+
+                <p class="mt-1 text-xs text-gray-500">You can upload multiple PDF brochures</p>
+
+                @error('brochures.*')
+                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                @enderror
+            </div>
             <div>
                 <label class="mb-2 block text-sm font-medium text-gray-700">Description</label>
                 <textarea name="description" rows="5"
@@ -299,6 +310,35 @@
                                 Delete
                             </button>
                         </form>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    @endif
+    @if(!empty($property->brochure))
+        <div class="mt-6 rounded-2xl bg-white p-6 shadow-sm border border-gray-100">
+            <label class="mb-4 block text-sm font-medium text-gray-700">Property Brochures</label>
+
+            <div class="space-y-3">
+                @foreach($property->brochure as $index => $file)
+                    <div class="flex items-center justify-between rounded-lg border p-3">
+
+                        <a href="{{ asset('storage/'.$file) }}" target="_blank"
+                        class="text-blue-600 hover:underline">
+                            📄 View Brochure {{ $index + 1 }}
+                        </a>
+
+                        <form action="{{ route('admin.properties.deleteBrochure', [$property->id, $index]) }}"
+                            method="POST"
+                            onsubmit="return confirm('Delete this brochure?')">
+                            @csrf
+
+                            <button type="submit"
+                                class="rounded-lg bg-red-600 px-3 py-1 text-sm text-white hover:bg-red-700">
+                                Delete
+                            </button>
+                        </form>
+
                     </div>
                 @endforeach
             </div>

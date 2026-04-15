@@ -37,6 +37,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/developers/delete/{id}', [DeveloperController::class, 'delete'])->name('developers.delete');
 
         Route::post('/properties/image/delete/{id}', [PropertyController::class, 'deleteImage'])->name('properties.image.delete');
+        Route::post('/properties/{id}/brochure/delete/{index}', [PropertyController::class, 'deleteBrochure'])->name('properties.deleteBrochure');
     });
 });
 

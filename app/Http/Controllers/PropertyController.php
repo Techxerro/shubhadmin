@@ -102,6 +102,7 @@ class PropertyController extends Controller
             'prime_location_highlight' => 'nullable|string|max:255',
             'prime_location_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
             'property_type' => 'required|in:off_plan,buy,rent',
+            'brochures.*' => 'nullable|mimes:pdf|max:5120',
         ]);
 
         $paymentPlan = collect($request->payment_plan ?? [])
@@ -144,6 +145,16 @@ class PropertyController extends Controller
                 ->store('properties/prime-location', 'public');
         }
 
+        $existingBrochures = $property->brochure ?? [];
+
+        if ($request->hasFile('brochures')) {
+
+            foreach ($request->file('brochures') as $file) {
+                $path = $file->store('properties/brochures', 'public');
+                $existingBrochures[] = $path;
+            }
+        }
+
         $property->update([
             'name' => $request->name,
             'logo' => $logoPath,
@@ -162,6 +173,7 @@ class PropertyController extends Controller
             'prime_location_highlight' => $request->prime_location_highlight,
             'prime_location_image' => $primeLocationImagePath,
             'property_type' => $request->property_type,
+            'brochure' => $existingBrochures,
         ]);
 
         if ($request->hasFile('images')) {
@@ -212,6 +224,27 @@ class PropertyController extends Controller
         return redirect()
         ->route('admin.properties.edit', $propertyId)
         ->with('success', 'Image deleted successfully.');
+    }
+
+    public function deleteBrochure($id, $index)
+    {
+        $property = Property::findOrFail($id);
+
+        $brochures = $property->brochure ?? [];
+
+        if (isset($brochures[$index])) {
+
+            if (Storage::disk('public')->exists($brochures[$index])) {
+                Storage::disk('public')->delete($brochures[$index]);
+            }
+
+            unset($brochures[$index]);
+
+            $property->brochure = array_values($brochures);
+            $property->save();
+        }
+
+        return back()->with('success', 'Brochure deleted successfully');
     }
 
 }
