@@ -39,6 +39,7 @@ class PropertyApiController extends Controller
                 'brochures' => !empty($property->brochure)? collect($property->brochure)->map(function ($file) {
                         return asset('storage/' . $file);
                     }) : [],
+                    'is_upcoming' => (bool) $property->is_upcoming,
             ];
         });
 

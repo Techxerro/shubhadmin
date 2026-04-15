@@ -101,8 +101,9 @@ class PropertyController extends Controller
             'prime_location_description' => 'nullable|string',
             'prime_location_highlight' => 'nullable|string|max:255',
             'prime_location_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
-            'property_type' => 'required|in:off_plan,buy,rent',
+            'property_type' => 'nullable|in:off_plan,buy,rent',
             'brochures.*' => 'nullable|mimes:pdf|max:5120',
+            'is_upcoming' => 'boolean',
         ]);
 
         $paymentPlan = collect($request->payment_plan ?? [])
@@ -174,6 +175,7 @@ class PropertyController extends Controller
             'prime_location_image' => $primeLocationImagePath,
             'property_type' => $request->property_type,
             'brochure' => $existingBrochures,
+            'is_upcoming' => $request->is_upcoming,
         ]);
 
         if ($request->hasFile('images')) {

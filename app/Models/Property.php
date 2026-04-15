@@ -12,6 +12,7 @@ class Property extends Model
     protected $casts = [
         'payment_plan' => 'array',
         'brochure' => 'array',
+        'is_upcoming' => 'boolean',
     ];
 
     public function images()
