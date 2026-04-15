@@ -35,6 +35,7 @@ class PropertyController extends Controller
             'amenities' => 'nullable|string',
             'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'property_type' => 'required|in:off_plan,buy,rent',
+            'is_upcoming' => 'required|boolean',
         ]);
 
         $logoPath = null;
@@ -55,6 +56,7 @@ class PropertyController extends Controller
             'description' => $request->description,
             'amenities' => $request->amenities,
             'property_type' => $request->property_type,
+            'is_upcoming' => $request->is_upcoming,
         ]);
 
         if ($request->hasFile('images')) {

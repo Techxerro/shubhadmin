@@ -44,7 +44,26 @@
                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                     @enderror
                 </div>
+                <div>
+                    <label class="mb-2 block text-sm font-medium text-gray-700">Is Upcoming?</label>
 
+                    <select name="is_upcoming"
+                        class="w-full rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+
+                        <option value="0" {{ old('is_upcoming') == '0' ? 'selected' : '' }}>
+                            No
+                        </option>
+
+                        <option value="1" {{ old('is_upcoming') == '1' ? 'selected' : '' }}>
+                            Yes (Upcoming)
+                        </option>
+
+                    </select>
+
+                    @error('is_upcoming')
+                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
                 <div>
                     <label class="mb-2 block text-sm font-medium text-gray-700">Logo</label>
                     <input type="file" name="logo"
