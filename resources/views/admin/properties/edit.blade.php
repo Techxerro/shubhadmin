@@ -68,6 +68,28 @@
 
                     </select>
                 </div>
+                <div>
+                    <label class="mb-2 block text-sm font-medium text-gray-700">Is Featured?</label>
+
+                    <select name="is_featured"
+                        class="w-full rounded-xl border-gray-300 focus:border-blue-500 focus:ring-blue-500">
+
+                        <option value="0"
+                            {{ old('is_featured', $property->is_featured) == 0 ? 'selected' : '' }}>
+                            No
+                        </option>
+
+                        <option value="1"
+                            {{ old('is_featured', $property->is_featured) == 1 ? 'selected' : '' }}>
+                            Yes (Featured)
+                        </option>
+
+                    </select>
+
+                    @error('is_featured')
+                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                    @enderror
+                </div>
 
                 <div>
                     <label class="mb-2 block text-sm font-medium text-gray-700">Change Logo</label>

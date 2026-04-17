@@ -106,6 +106,7 @@ class PropertyController extends Controller
             'property_type' => 'nullable|in:off_plan,buy,rent',
             'brochures.*' => 'nullable|mimes:pdf|max:5120',
             'is_upcoming' => 'boolean',
+            'is_featured' => 'boolean',
         ]);
 
         $paymentPlan = collect($request->payment_plan ?? [])
@@ -178,6 +179,7 @@ class PropertyController extends Controller
             'property_type' => $request->property_type,
             'brochure' => $existingBrochures,
             'is_upcoming' => $request->is_upcoming,
+            'is_featured' => $request->is_featured,
         ]);
 
         if ($request->hasFile('images')) {

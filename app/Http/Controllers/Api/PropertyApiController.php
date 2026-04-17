@@ -40,6 +40,7 @@ class PropertyApiController extends Controller
                         return asset('storage/' . $file);
                     }) : [],
                     'is_upcoming' => (bool) $property->is_upcoming,
+                    'is_featured' => (bool) $property->is_featured,
             ];
         });
 

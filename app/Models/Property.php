@@ -13,6 +13,7 @@ class Property extends Model
         'payment_plan' => 'array',
         'brochure' => 'array',
         'is_upcoming' => 'boolean',
+        'is_featured' => 'boolean',
     ];
 
     public function images()
