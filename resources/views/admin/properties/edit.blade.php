@@ -39,6 +39,14 @@
                             {{ old('property_type', $property->property_type) == 'rent' ? 'selected' : '' }}>
                             Rent
                         </option>
+                        <option value="international"
+                            {{ old('property_type', $property->property_type) == 'international' ? 'selected' : '' }}>
+                            International
+                        </option>
+                        <option value="ready to move"
+                            {{ old('property_type', $property->property_type) == 'ready to move' ? 'selected' : '' }}>
+                            Ready to Move
+                        </option>
 
                     </select>
                 </div>
