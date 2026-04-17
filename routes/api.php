@@ -6,3 +6,4 @@ use App\Http\Controllers\Api\DeveloperApiController;
 
 Route::get('/properties', [PropertyApiController::class, 'index']);
 Route::get('/developers', [DeveloperApiController::class, 'index']);
+Route::get('/properties/featured', [PropertyApiController::class, 'featured']);
