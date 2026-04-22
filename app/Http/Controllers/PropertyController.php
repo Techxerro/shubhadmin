@@ -103,7 +103,6 @@ class PropertyController extends Controller
             'prime_location_description' => 'nullable|string',
             'prime_location_highlight' => 'nullable|string|max:255',
             'prime_location_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
-            'property_type' => 'nullable|in:off_plan,buy,rent',
             'brochures.*' => 'nullable|mimes:pdf|max:5120',
             'is_upcoming' => 'boolean',
             'is_featured' => 'boolean',
