@@ -39,6 +39,7 @@ class DeveloperController extends Controller
             'name' => $request->name,
             'description' => $request->description,
             'image' => $imagePath,
+            'is_featured' => $request->is_featured,
         ]);
 
         return redirect()->route('admin.developers.list')->with('success', 'Developer added successfully.');
@@ -74,6 +75,7 @@ class DeveloperController extends Controller
             'name' => $request->name,
             'description' => $request->description,
             'image' => $imagePath,
+            'is_featured' => $request->is_featured,
         ]);
 
         return redirect()->route('admin.developers.list')->with('success', 'Developer updated successfully.');

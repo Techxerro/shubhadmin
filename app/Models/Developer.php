@@ -7,4 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Developer extends Model
 {
     protected $guarded = [];
+
+    protected $casts = [
+        'is_featured' => 'boolean',
+    ];
 }
