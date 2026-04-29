@@ -2,17 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use App\Models\Developer;
+use App\Services\FileUploadService;
+use Illuminate\Http\Request;
 
 class DeveloperController extends Controller
 {
+    protected FileUploadService $fileUploadService;
+
+    public function __construct(FileUploadService $fileUploadService)
+    {
+        $this->fileUploadService = $fileUploadService;
+    }
 
     public function list()
     {
         $developers = Developer::latest()->paginate(10);
+
         return view('admin.developers.list', compact('developers'));
     }
 
@@ -32,7 +38,7 @@ class DeveloperController extends Controller
         $imagePath = null;
 
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('developers', 'public');
+            $imagePath = $this->fileUploadService->upload($request->file('image'), 'developers');
         }
 
         Developer::create([
@@ -48,6 +54,7 @@ class DeveloperController extends Controller
     public function edit($id)
     {
         $developer = Developer::findOrFail($id);
+
         return view('admin.developers.edit', compact('developer'));
     }
 
@@ -64,11 +71,11 @@ class DeveloperController extends Controller
         $imagePath = $developer->image;
 
         if ($request->hasFile('image')) {
-            if ($developer->image && Storage::disk('public')->exists($developer->image)) {
-                Storage::disk('public')->delete($developer->image);
+            if ($developer->image && $this->fileUploadService->exists($developer->image)) {
+                $this->fileUploadService->delete($developer->image);
             }
 
-            $imagePath = $request->file('image')->store('developers', 'public');
+            $imagePath = $this->fileUploadService->upload($request->file('image'), 'developers');
         }
 
         $developer->update([
@@ -85,8 +92,8 @@ class DeveloperController extends Controller
     {
         $developer = Developer::findOrFail($id);
 
-        if ($developer->image && Storage::disk('public')->exists($developer->image)) {
-            Storage::disk('public')->delete($developer->image);
+        if ($developer->image && $this->fileUploadService->exists($developer->image)) {
+            $this->fileUploadService->delete($developer->image);
         }
 
         $developer->delete();

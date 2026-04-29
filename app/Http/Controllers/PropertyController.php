@@ -3,15 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Property;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use App\Models\PropertyImage;
+use App\Services\FileUploadService;
+use Illuminate\Http\Request;
 
 class PropertyController extends Controller
 {
+    protected FileUploadService $fileUploadService;
+
+    public function __construct(FileUploadService $fileUploadService)
+    {
+        $this->fileUploadService = $fileUploadService;
+    }
+
     public function list()
     {
         $properties = Property::with('images')->latest()->paginate(10);
+
         return view('admin.properties.list', compact('properties'));
     }
 
@@ -41,10 +49,10 @@ class PropertyController extends Controller
         $logoPath = null;
 
         if ($request->hasFile('logo')) {
-            $logoPath = $request->file('logo')->store('properties', 'public');
+            $logoPath = $this->fileUploadService->upload($request->file('logo'), 'properties');
         }
 
-         $property = Property::create([
+        $property = Property::create([
             'name' => $request->name,
             'logo' => $logoPath,
             'developer' => $request->developer,
@@ -61,7 +69,7 @@ class PropertyController extends Controller
 
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
-                $imagePath = $image->store('properties/gallery', 'public');
+                $imagePath = $this->fileUploadService->upload($image, 'properties/gallery');
 
                 PropertyImage::create([
                     'property_id' => $property->id,
@@ -76,6 +84,7 @@ class PropertyController extends Controller
     public function edit($id)
     {
         $property = Property::with('images')->findOrFail($id);
+
         return view('admin.properties.edit', compact('property'));
     }
 
@@ -109,43 +118,42 @@ class PropertyController extends Controller
         ]);
 
         $paymentPlan = collect($request->payment_plan ?? [])
-        ->filter(function ($item) {
-            return !empty($item['key']) || !empty($item['value']);
-        })
-        ->values()
-        ->toArray();
+            ->filter(function ($item) {
+                return ! empty($item['key']) || ! empty($item['value']);
+            })
+            ->values()
+            ->toArray();
 
         $logoPath = $property->logo;
 
         if ($request->hasFile('logo')) {
-            if ($property->logo && Storage::disk('public')->exists($property->logo)) {
-                Storage::disk('public')->delete($property->logo);
+            if ($property->logo && $this->fileUploadService->exists($property->logo)) {
+                $this->fileUploadService->delete($property->logo);
             }
 
-            $logoPath = $request->file('logo')->store('properties', 'public');
+            $logoPath = $this->fileUploadService->upload($request->file('logo'), 'properties');
         }
 
         $masterPlanImagePath = $property->master_plan_image;
 
         if ($request->hasFile('master_plan_image')) {
-            if ($property->master_plan_image && Storage::disk('public')->exists($property->master_plan_image)) {
-                Storage::disk('public')->delete($property->master_plan_image);
+            if ($property->master_plan_image && $this->fileUploadService->exists($property->master_plan_image)) {
+                $this->fileUploadService->delete($property->master_plan_image);
             }
 
-            $masterPlanImagePath = $request->file('master_plan_image')->store('properties/master-plan', 'public');
+            $masterPlanImagePath = $this->fileUploadService->upload($request->file('master_plan_image'), 'properties/master-plan');
         }
 
         $primeLocationImagePath = $property->prime_location_image;
 
         if ($request->hasFile('prime_location_image')) {
 
-            if ($property->prime_location_image && Storage::disk('public')->exists($property->prime_location_image)) {
+            if ($property->prime_location_image && $this->fileUploadService->exists($property->prime_location_image)) {
 
-                Storage::disk('public')->delete($property->prime_location_image);
+                $this->fileUploadService->delete($property->prime_location_image);
             }
 
-            $primeLocationImagePath = $request->file('prime_location_image')
-                ->store('properties/prime-location', 'public');
+            $primeLocationImagePath = $this->fileUploadService->upload($request->file('prime_location_image'), 'properties/prime-location');
         }
 
         $existingBrochures = $property->brochure ?? [];
@@ -153,7 +161,7 @@ class PropertyController extends Controller
         if ($request->hasFile('brochures')) {
 
             foreach ($request->file('brochures') as $file) {
-                $path = $file->store('properties/brochures', 'public');
+                $path = $this->fileUploadService->upload($file, 'properties/brochures');
                 $existingBrochures[] = $path;
             }
         }
@@ -183,7 +191,7 @@ class PropertyController extends Controller
 
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
-                $imagePath = $image->store('properties/gallery', 'public');
+                $imagePath = $this->fileUploadService->upload($image, 'properties/gallery');
 
                 PropertyImage::create([
                     'property_id' => $property->id,
@@ -199,14 +207,14 @@ class PropertyController extends Controller
     {
         $property = Property::with('images')->findOrFail($id);
 
-        if ($property->logo && Storage::disk('public')->exists($property->logo)) {
-            Storage::disk('public')->delete($property->logo);
+        if ($property->logo && $this->fileUploadService->exists($property->logo)) {
+            $this->fileUploadService->delete($property->logo);
         }
 
         // Delete associated images
         foreach ($property->images as $img) {
-            if ($img->image && Storage::disk('public')->exists($img->image)) {
-                Storage::disk('public')->delete($img->image);
+            if ($img->image && $this->fileUploadService->exists($img->image)) {
+                $this->fileUploadService->delete($img->image);
             }
         }
 
@@ -220,15 +228,15 @@ class PropertyController extends Controller
         $image = PropertyImage::findOrFail($id);
         $propertyId = $image->property_id;
 
-        if ($image->image && Storage::disk('public')->exists($image->image)) {
-            Storage::disk('public')->delete($image->image);
+        if ($image->image && $this->fileUploadService->exists($image->image)) {
+            $this->fileUploadService->delete($image->image);
         }
 
         $image->delete();
 
         return redirect()
-        ->route('admin.properties.edit', $propertyId)
-        ->with('success', 'Image deleted successfully.');
+            ->route('admin.properties.edit', $propertyId)
+            ->with('success', 'Image deleted successfully.');
     }
 
     public function deleteBrochure($id, $index)
@@ -239,8 +247,8 @@ class PropertyController extends Controller
 
         if (isset($brochures[$index])) {
 
-            if (Storage::disk('public')->exists($brochures[$index])) {
-                Storage::disk('public')->delete($brochures[$index]);
+            if ($this->fileUploadService->exists($brochures[$index])) {
+                $this->fileUploadService->delete($brochures[$index]);
             }
 
             unset($brochures[$index]);
@@ -251,5 +259,4 @@ class PropertyController extends Controller
 
         return back()->with('success', 'Brochure deleted successfully');
     }
-
 }

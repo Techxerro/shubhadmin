@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Developer;
 
 class DeveloperApiController extends Controller
@@ -17,7 +16,7 @@ class DeveloperApiController extends Controller
                 'id' => $developer->id,
                 'name' => $developer->name,
                 'description' => $developer->description,
-                'image' => $developer->image ? asset('storage/' . $developer->image) : null,
+                'image' => $developer->image ? asset($developer->image) : null,
                 'created_at' => $developer->created_at,
                 'updated_at' => $developer->updated_at,
                 'is_featured' => (bool) $developer->is_featured,
@@ -40,16 +39,14 @@ class DeveloperApiController extends Controller
                 'id' => $dev->id,
                 'name' => $dev->name,
                 'description' => $dev->description,
-                'image' => $dev->image ? asset('storage/' . $dev->image) : null,
+                'image' => $dev->image ? asset($dev->image) : null,
                 'is_featured' => (bool) $dev->is_featured,
             ];
         });
 
         return response()->json([
             'status' => true,
-            'data' => $data
+            'data' => $data,
         ]);
     }
-
-
 }

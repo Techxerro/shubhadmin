@@ -37,7 +37,7 @@
                             <td class="px-4 py-3 text-sm text-gray-700">{{ $properties->firstItem() + $key }}</td>
                             <td class="px-4 py-3">
                                 @if($property->logo)
-                                    <img src="{{ asset('storage/' . $property->logo) }}" class="h-12 w-12 rounded-lg object-cover border">
+                                    <img src="{{ asset($property->logo) }}" class="h-12 w-12 rounded-lg object-cover border">
                                 @else
                                     <span class="text-sm text-gray-400">N/A</span>
                                 @endif

@@ -34,7 +34,7 @@
 
                             <td class="px-4 py-3">
                                 @if($developer->image)
-                                    <img src="{{ asset('storage/' . $developer->image) }}"
+                                    <img src="{{ asset($developer->image) }}"
                                          class="h-12 w-12 rounded-lg object-cover border">
                                 @else
                                     <span class="text-sm text-gray-400">N/A</span>

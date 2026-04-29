@@ -135,7 +135,7 @@
             @if($property->logo)
                 <div>
                     <label class="mb-2 block text-sm font-medium text-gray-700">Current Logo</label>
-                    <img src="{{ asset('storage/' . $property->logo) }}" class="h-20 w-20 rounded-xl object-cover border">
+                    <img src="{{ asset($property->logo) }}" class="h-20 w-20 rounded-xl object-cover border">
                 </div>
             @endif
 
@@ -203,7 +203,7 @@
                     <div>
                         <label class="mb-2 block text-sm font-medium text-gray-700">Current Master Plan Image</label>
                         <img
-                            src="{{ asset('storage/' . $property->master_plan_image) }}"
+                            src="{{ asset($property->master_plan_image) }}"
                             class="max-h-64 rounded-xl border object-cover"
                         >
                     </div>
@@ -248,7 +248,7 @@
                     <div>
                         <label class="mb-2 block text-sm font-medium text-gray-700">Current Image</label>
                         <img
-                            src="{{ asset('storage/' . $property->prime_location_image) }}"
+                            src="{{ asset($property->prime_location_image) }}"
                             class="max-h-64 rounded-xl border object-cover"
                         >
                     </div>
@@ -345,7 +345,7 @@
             <div class="grid grid-cols-2 gap-4 md:grid-cols-4">
                 @foreach($property->images as $img)
                     <div class="rounded-xl border p-2">
-                        <img src="{{ asset('storage/' . $img->image) }}"
+                        <img src="{{ asset($img->image) }}"
                              class="h-24 w-full rounded-lg object-cover">
 
                         <form action="{{ route('admin.properties.image.delete', $img->id) }}"
@@ -371,7 +371,7 @@
                 @foreach($property->brochure as $index => $file)
                     <div class="flex items-center justify-between rounded-lg border p-3">
 
-                        <a href="{{ asset('storage/'.$file) }}" target="_blank"
+                        <a href="{{ asset($file) }}" target="_blank"
                         class="text-blue-600 hover:underline">
                             📄 View Brochure {{ $index + 1 }}
                         </a>

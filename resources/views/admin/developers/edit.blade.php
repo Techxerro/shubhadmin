@@ -68,7 +68,7 @@
                 <div>
                     <label class="mb-2 block text-sm font-medium text-gray-700">Current Image</label>
                     <img
-                        src="{{ asset('storage/' . $developer->image) }}"
+                        src="{{ asset($developer->image) }}"
                         class="h-24 w-24 rounded-xl object-cover border"
                     >
                 </div>
